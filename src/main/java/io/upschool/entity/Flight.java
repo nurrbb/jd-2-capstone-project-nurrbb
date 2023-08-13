@@ -17,6 +17,8 @@ public class Flight {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long flightID;
 
+    private String number;
+
     @ManyToOne
     @JoinColumn(name = "airline_id")
     private Airline airline;
