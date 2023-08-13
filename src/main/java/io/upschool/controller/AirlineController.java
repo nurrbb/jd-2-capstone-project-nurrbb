@@ -1,5 +1,7 @@
 package io.upschool.controller;
 
+import io.upschool.dto.AirlineSaveRequest;
+import io.upschool.dto.AirlineSaveResponse;
 import io.upschool.entity.Airline;
 import io.upschool.service.AirlineService;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +25,9 @@ public class AirlineController {
     }
 
     @PostMapping
-    public ResponseEntity<Airline> createAirline(@RequestBody Airline airline){
-        Airline savedAirline = airlineService.save(airline);
-        return ResponseEntity.ok(savedAirline);
+    public ResponseEntity<AirlineSaveResponse> createAirline(@RequestBody AirlineSaveRequest airlineSaveRequest){
+        var response = airlineService.save(airlineSaveRequest);
+        return ResponseEntity.ok(response);
     }
 
 }

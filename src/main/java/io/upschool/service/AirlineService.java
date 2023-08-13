@@ -1,5 +1,7 @@
 package io.upschool.service;
 
+import io.upschool.dto.AirlineSaveRequest;
+import io.upschool.dto.AirlineSaveResponse;
 import io.upschool.entity.Airline;
 import io.upschool.repository.AirlineRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+
 public class AirlineService {
     private final AirlineRepository airlineRepository;
 
@@ -16,8 +19,16 @@ public class AirlineService {
        return airlineRepository.findAllByNameIs(name);
     }
 
-    public Airline save(Airline airline){
-      return airlineRepository.save(airline);
+
+    public AirlineSaveResponse save(AirlineSaveRequest airlineSaveRequest){
+        var newAirline = Airline
+                .builder()
+                .name(airlineSaveRequest.getName())
+                .build();
+        Airline savedAirline = airlineRepository.save(newAirline);
+        return AirlineSaveResponse
+                .builder().name(savedAirline.getName())
+                .id(savedAirline.getAirlineID()).build();
     }
 
     public  List<Airline> getAllAirline(){

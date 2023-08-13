@@ -23,4 +23,11 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
+    public void delete(Long id) {
+        var Ticket = ticketRepository.findById(id).get();
+        Ticket.setActive(false);
+        ticketRepository.save(Ticket);
+    }
+
+
 }

@@ -27,4 +27,9 @@ public class TicketController {
         Ticket savedTicket = ticketService.Save(ticket);
         return ResponseEntity.ok(savedTicket);
     }
+
+    @DeleteMapping("{id}")
+    public  void deleteTicket(@PathVariable("id") long id){
+        ticketService.delete(id);
+    }
 }

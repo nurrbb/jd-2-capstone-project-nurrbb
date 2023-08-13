@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "ticket")
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Where(clause = "is_active = true")
 
 public class Ticket {
     @Id
@@ -30,4 +32,7 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "flight_id")
     private Flight flight;
+
+    @Column(name ="is active")
+    private Boolean active;
 }
