@@ -17,17 +17,28 @@ public class TicketController {
     private final TicketService ticketService;
 
     @GetMapping
-    public ResponseEntity<List<Ticket>> getTicket(){
+    public ResponseEntity<BaseResponse<List<Ticket>>> getTicket() {
+        var tickets = ticketService.getAllTicket();
+        var response = BaseResponse.<List<Ticket>>builder()
+                .status(HttpStatus.OK.value())
+                .isSuccess(true)
+                .data(tickets)
+                .build();
+        return ResponseEntity.ok(response);
+    }
 
-        var ticket = ticketService.getAllTicket();
-        return ResponseEntity.ok(ticket);
-    }
-    @GetMapping(path="/{id}")
-    public ResponseEntity<Ticket> search(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<BaseResponse<Ticket>> search(@PathVariable Long id) {
         var ticket = ticketService.getByTicketId(id);
-        return ResponseEntity.ok(ticket);
+        var response = BaseResponse.<Ticket>builder()
+                .status(HttpStatus.OK.value())
+                .isSuccess(true)
+                .data(ticket)
+                .build();
+        return ResponseEntity.ok(response);
     }
-    @PostMapping("/ticket")
+
+    @PostMapping
     public ResponseEntity<Object> createTicket(@RequestBody TicketSaveRequest request) {
         var ticketSaveResponse = ticketService.save(request);
         var response =  BaseResponse.<TicketSaveResponse>builder()
@@ -38,9 +49,11 @@ public class TicketController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("{id}")
-    public  void deleteTicket(@PathVariable("id") long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTicket(@PathVariable("id") long id) {
         ticketService.delete(id);
+        return ResponseEntity.noContent().build();
     }
+
 
 }

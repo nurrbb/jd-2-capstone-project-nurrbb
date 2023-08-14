@@ -24,7 +24,6 @@ public class RouteService {
 
     @Transactional(readOnly = true)
     public Route getRouteById(Long id){
-
         return routeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(id + " not found!"));
     }

@@ -17,17 +17,26 @@ public class FlightController {
     private final FlightService flightService;
 
     @GetMapping
-    public ResponseEntity<List<Flight>> getFlight(){
-
-        var Flight = flightService.getAllFlight();
-        return ResponseEntity.ok(Flight);
+    public ResponseEntity<BaseResponse<List<Flight>>> getFlight() {
+        var flights = flightService.getAllFlight();
+        var response = BaseResponse.<List<Flight>>builder()
+                .status(HttpStatus.OK.value())
+                .isSuccess(true)
+                .data(flights)
+                .build();
+        return ResponseEntity.ok(response);
     }
-    @GetMapping(path="/{id}")
-    public ResponseEntity<Flight> search(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<BaseResponse<Flight>> search(@PathVariable Long id) {
         var flight = flightService.getByFlightId(id);
-        return ResponseEntity.ok(flight);
+        var response = BaseResponse.<Flight>builder()
+                .status(HttpStatus.OK.value())
+                .isSuccess(true)
+                .data(flight)
+                .build();
+        return ResponseEntity.ok(response);
     }
-    @PostMapping("/flight")
+    @PostMapping
     public ResponseEntity<Object> createFlight(@RequestBody FlightSaveRequest request) {
         var flightSaveResponse = flightService.save(request);
         var response =  BaseResponse.<FlightSaveResponse>builder()
@@ -37,13 +46,5 @@ public class FlightController {
                 .build();
         return ResponseEntity.ok(response);
     }
-
-  /*  @PostMapping
-    public ResponseEntity<FlightSaveResponse> createFlight(@RequestBody FlightSaveRequest request){
-        FlightSaveResponse savedFlight = flightService.save(request);
-        return ResponseEntity.ok(savedFlight);
-    }
-*/
-
 
 }

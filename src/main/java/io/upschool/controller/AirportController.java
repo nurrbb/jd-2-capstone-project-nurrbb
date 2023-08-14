@@ -18,17 +18,26 @@ public class AirportController {
     private final AirportService airportService;
 
     @GetMapping
-    public ResponseEntity<List<Airport>> getAirport(){
-        var airport = airportService.getAllAirports();
-        return ResponseEntity.ok(airport);
+    public ResponseEntity<BaseResponse<List<Airport>>> getAirport() {
+        var airports = airportService.getAllAirports();
+        var response = BaseResponse.<List<Airport>>builder()
+                .status(HttpStatus.OK.value())
+                .isSuccess(true)
+                .data(airports)
+                .build();
+        return ResponseEntity.ok(response);
     }
-
     @GetMapping(path="/{id}")
-    public ResponseEntity<Airport> search(@PathVariable Long id){
+    public ResponseEntity<BaseResponse<Airport>> search(@PathVariable Long id) {
         var airport = airportService.getByAirportId(id);
-        return ResponseEntity.ok(airport);
+        var response = BaseResponse.<Airport>builder()
+                .status(HttpStatus.OK.value())
+                .isSuccess(true)
+                .data(airport)
+                .build();
+        return ResponseEntity.ok(response);
     }
-    @PostMapping("/airport")
+    @PostMapping
     public ResponseEntity<Object> createAirport(@RequestBody AirportSaveRequest request) {
         var airportSaveResponse = airportService.save(request);
         var response =  BaseResponse.<AirportSaveResponse>builder()

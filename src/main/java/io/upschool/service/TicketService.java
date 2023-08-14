@@ -21,16 +21,16 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final FlightService flightService ;
 
+    @Transactional(readOnly = true)
+    public Ticket getByTicketId(Long id) {
+        return ticketRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(id + " not found!"));
+    }
 
     public List<Ticket> findTicketBySurname(String surname){
         return ticketRepository.findAllByPassengerSurname(surname);
     }
-    @Transactional(readOnly = true)
-    public Ticket getByTicketId(Long id) {
 
-        return ticketRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(id + " not found!"));
-    }
     public List<Ticket> findAllByTicketNumberIs(String ticketNumber){
         return ticketRepository.findAllByTicketNumberIs(ticketNumber);
     }

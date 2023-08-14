@@ -19,18 +19,29 @@ public class RouteController {
     private final RouteService routeService;
 
     @GetMapping
-    public ResponseEntity<List<Route>> getRoute(){
-        var route = routeService.getAllRoute();
-        return ResponseEntity.ok(route);
+    public ResponseEntity<BaseResponse<List<Route>>> getRoute() {
+        var routes = routeService.getAllRoute();
+        var response = BaseResponse.<List<Route>>builder()
+                .status(HttpStatus.OK.value())
+                .isSuccess(true)
+                .data(routes)
+                .build();
+        return ResponseEntity.ok(response);
     }
-    @GetMapping(path="/{id}")
-    public ResponseEntity<Route> search(@PathVariable Long id){
+
+    @GetMapping("/routes/{id}")
+    public ResponseEntity<BaseResponse<Route>> search(@PathVariable Long id) {
         var route = routeService.getRouteById(id);
-        return ResponseEntity.ok(route);
+        var response = BaseResponse.<Route>builder()
+                .status(HttpStatus.OK.value())
+                .isSuccess(true)
+                .data(route)
+                .build();
+        return ResponseEntity.ok(response);
     }
 
 
-    @PostMapping("/route")
+    @PostMapping
     public ResponseEntity<Object> createRoute(@RequestBody RouteSaveRequest request){
        var routeSaveResponse  = routeService.save(request);
         var response =  BaseResponse.<RouteSaveResponse>builder()

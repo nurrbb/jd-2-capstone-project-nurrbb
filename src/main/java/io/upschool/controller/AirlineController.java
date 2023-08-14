@@ -20,12 +20,17 @@ public class AirlineController {
     private final AirlineService airlineService;
 
     @GetMapping
-    public ResponseEntity<List<Airline>> getAirlines(){
-        var airline = airlineService.getAllAirline();
-        return ResponseEntity.ok(airline);
+    public ResponseEntity<BaseResponse<List<Airline>>> getAirlines() {
+        var airlines = airlineService.getAllAirline();
+        var response = BaseResponse.<List<Airline>>builder()
+                .status(HttpStatus.OK.value())
+                .isSuccess(true)
+                .data(airlines)
+                .build();
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/airline")
+    @PostMapping
     public ResponseEntity<Object> createAirline(@RequestBody AirlineSaveRequest request) {
         var airlineSaveResponse = airlineService.save(request);
         var response =  BaseResponse.<AirlineSaveResponse>builder()
@@ -36,9 +41,14 @@ public class AirlineController {
         return ResponseEntity.ok(response);
     }
     @GetMapping(path="/{id}")
-    public ResponseEntity<Airline> search(@PathVariable Long id){
+    public ResponseEntity<BaseResponse<Airline>> search(@PathVariable Long id) {
         var airline = airlineService.getByAirlineId(id);
-        return ResponseEntity.ok(airline);
+        var response = BaseResponse.<Airline>builder()
+                .status(HttpStatus.OK.value())
+                .isSuccess(true)
+                .data(airline)
+                .build();
+        return ResponseEntity.ok(response);
     }
 
 }
