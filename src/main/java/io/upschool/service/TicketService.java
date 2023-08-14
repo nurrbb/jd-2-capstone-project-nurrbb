@@ -4,6 +4,8 @@ import io.upschool.dto.TicketSaveRequest;
 import io.upschool.dto.TicketSaveResponse;
 import io.upschool.entity.Flight;
 import io.upschool.entity.Ticket;
+import io.upschool.exception.InvalidCreditCardNumberException;
+import io.upschool.exception.TicketAlreadySavedException;
 import io.upschool.repository.TicketRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,12 @@ public class TicketService {
     @Transactional
     public TicketSaveResponse save(TicketSaveRequest request) {
         Flight flight = flightService.getByFlightId(request.getFlightID());
+        if (ticketRepository.existsByPassengerNameAndPassengerSurnameIgnoreCase(request.getPassengerName(), request.getPassengerSurname())) {
+            throw new TicketAlreadySavedException();
+        }
+        if (!isValidCreditCardNumber(request.getCreditCardNumber())) {
+            throw new InvalidCreditCardNumberException("Invalid credit card number format.Your credit card number must be 16 digits long and consist of only numbers.");
+        }
 
         String maskedCreditCardNumber = maskCreditCardNumber(request.getCreditCardNumber());
 
@@ -60,6 +68,9 @@ public class TicketService {
                 .maskedCreditCardNumber(maskedCreditCardNumber)
                 .flight(flight)
                 .build();
+    }
+    private boolean isValidCreditCardNumber(String creditCardNumber) {
+        return creditCardNumber.matches("\\d{16}");
     }
 
     private String maskCreditCardNumber(String creditCardNumber) {

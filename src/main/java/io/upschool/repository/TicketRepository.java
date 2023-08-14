@@ -10,5 +10,7 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket,Long> {
     List<Ticket> findAllByTicketNumberIs(String TicketNumber);
     List<Ticket> findAllByPassengerSurname(String Surname);
+    boolean existsByPassengerNameAndPassengerSurnameIgnoreCase(String passengerName, String passengerSurname);
+
 
 }

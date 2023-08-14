@@ -3,6 +3,8 @@ package io.upschool.service;
 import io.upschool.dto.AirlineSaveRequest;
 import io.upschool.dto.AirlineSaveResponse;
 import io.upschool.entity.Airline;
+import io.upschool.exception.AirlineAlreadySavedException;
+import io.upschool.exception.AirlineNotFoundException;
 import io.upschool.repository.AirlineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,19 +18,19 @@ import java.util.List;
 public class AirlineService {
     private final AirlineRepository airlineRepository;
 
-    public List<Airline> findAirlineByName(String name){
-       return airlineRepository.findAllByNameIs(name);
-    }
-
     @Transactional(readOnly = true)
     public Airline getByAirlineId(Long id) {
 
         return airlineRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(id + " not found!"));
+                .orElseThrow(() -> new AirlineNotFoundException(id));
     }
 
     @Transactional
     public AirlineSaveResponse save(AirlineSaveRequest airlineSaveRequest){
+        String lowercaseName = airlineSaveRequest.getName().toLowerCase();
+        if (airlineRepository.existsByName(airlineSaveRequest.getName())) {
+            throw new AirlineAlreadySavedException();
+        }
         var newAirline = Airline.builder()
                 .name(airlineSaveRequest.getName())
                 .build();
@@ -45,5 +47,7 @@ public class AirlineService {
     public  List<Airline> getAllAirline(){
         return airlineRepository.findAll();
     }
+
+
 
 }

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface AirlineRepository extends JpaRepository<Airline,Long> {
     List<Airline> findAllByNameIs(String Name);
+    boolean existsByName(String name);
 }

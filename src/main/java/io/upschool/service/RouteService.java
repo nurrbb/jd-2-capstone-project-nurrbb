@@ -4,6 +4,7 @@ import io.upschool.dto.RouteSaveRequest;
 import io.upschool.dto.RouteSaveResponse;
 import io.upschool.entity.Airport;
 import io.upschool.entity.Route;
+import io.upschool.exception.RouteAlreadySavedException;
 import io.upschool.repository.RouteRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,16 @@ public class RouteService {
     }
     @Transactional
     public RouteSaveResponse save(RouteSaveRequest request) {
+        Airport originAirport = airportService.getByAirportId(request.getOriginAirportId());
+        Airport destinationAirport = airportService.getByAirportId(request.getDestinationAirportId());
+
+        if (originAirport.getId() == destinationAirport.getId()) {
+            throw new RuntimeException("Origin and destination airports cannot be the same.");
+        }
+
+        if (routeRepository.existsByOriginAirportAndDestinationAirport(originAirport, destinationAirport)) {
+            throw new RouteAlreadySavedException();
+        }
         Airport origin = airportService.getByAirportId(request.getOriginAirportId());
         Airport destination = airportService.getByAirportId(request.getDestinationAirportId());
 
