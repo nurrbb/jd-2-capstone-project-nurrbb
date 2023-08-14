@@ -19,10 +19,10 @@ public class Airport {
 
     private long Id;
 
-    @Column(name= "name")
+    @Column(name= "name", nullable = false,length = 100)
     private String name;
 
-    @Column(name ="location")
+    @Column(name ="location",nullable = false,length = 100)
     private String location;
 
 

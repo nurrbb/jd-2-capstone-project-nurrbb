@@ -19,12 +19,11 @@ public class Route {
     private Long routeID;
 
     @ManyToOne
-    @JoinColumn(name = "origin_airport_location")
+    @JoinColumn(name = "origin_airport_location",nullable = false)
     private Airport originAirport;
 
     @ManyToOne
-    @JoinColumn(name = "destination_airport_location")
+    @JoinColumn(name = "destination_airport_location",nullable = false)
     private Airport destinationAirport;
-
 
 }

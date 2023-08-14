@@ -1,7 +1,5 @@
 package io.upschool.dto;
 
-import io.upschool.entity.Airline;
-import io.upschool.entity.Route;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class FlightSaveRequest {
+
     private String number;
-    private Airline airline;
-    private Route route;
+    private Long airlineId;
+    private Long routeId;
 }

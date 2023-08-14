@@ -20,17 +20,17 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketID;
 
-    @Column(name= "ticketNumber")
+   @Column(name= "ticketNumber")
     private String ticketNumber;
 
-    @Column(name= "passengerName")
+    @Column(name= "passengerName",nullable = false)
     private String passengerName;
 
-    @Column(name= "passengerSurname")
+    @Column(name= "passengerSurname",nullable = false)
     private String passengerSurname;
 
     @ManyToOne
-    @JoinColumn(name = "flight_id")
+    @JoinColumn(name = "flight_id",nullable = false)
     private Flight flight;
 
     @Column(name ="is active")

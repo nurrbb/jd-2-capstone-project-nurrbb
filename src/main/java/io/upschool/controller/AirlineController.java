@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/airline")
+@RequestMapping("/api/airlines")
 @RequiredArgsConstructor
 
 public class AirlineController {
@@ -19,15 +19,14 @@ public class AirlineController {
 
     @GetMapping
     public ResponseEntity<List<Airline>> getAirlines(){
-
         var airline = airlineService.getAllAirline();
         return ResponseEntity.ok(airline);
     }
-
     @PostMapping
-    public ResponseEntity<AirlineSaveResponse> createAirline(@RequestBody AirlineSaveRequest airlineSaveRequest){
-        var response = airlineService.save(airlineSaveRequest);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Airline> createAirline(@RequestBody Airline airline) {
+        return ResponseEntity.ok(airlineService.save(airline));
     }
 
+
+ //base response yazılacak
 }

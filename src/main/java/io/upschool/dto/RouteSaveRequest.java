@@ -1,10 +1,6 @@
 package io.upschool.dto;
 
-import io.upschool.entity.Airport;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
@@ -12,8 +8,21 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RouteSaveRequest {
 
+    private Long originAirportId;
+    private Long destinationAirportId;
 
-    private Airport originAirport;
-    private Airport destinationAirport;
+    public void setOriginAirportId(Long originAirportId) {
+        if (originAirportId != null && originAirportId.equals(this.destinationAirportId)) {
+            throw new IllegalArgumentException("Origin and destination airports cannot be the same.");
+        }
+        this.originAirportId = originAirportId;
+    }
 
+    public void setDestinationAirportId(Long destinationAirportId) {
+        if (destinationAirportId != null && destinationAirportId.equals(this.originAirportId)) {
+            throw new IllegalArgumentException("Origin and destination airports cannot be the same.");
+        }
+        this.destinationAirportId = destinationAirportId;
+    }
 }
+

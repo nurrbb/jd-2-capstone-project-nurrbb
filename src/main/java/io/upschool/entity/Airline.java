@@ -14,7 +14,7 @@ public class Airline {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long airlineID;
 
-    @Column(name ="name")
+    @Column(name ="name", nullable = false,length = 100)
     private String name;
 
     @OneToMany(mappedBy = "airline", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -1,5 +1,4 @@
 package io.upschool.dto;
-import io.upschool.entity.Flight;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +13,7 @@ public class TicketSaveRequest {
     private String ticketNumber;
     private String passengerName;
     private String passengerSurname;
-    private Flight flight;
+    private Long flightID;
+    private String creditCardNumber;
+
 }

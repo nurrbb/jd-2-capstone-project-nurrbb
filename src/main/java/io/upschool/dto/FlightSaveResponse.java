@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 
 public class FlightSaveResponse {
+
     private Long flightID;
     private String number;
     private Airline airline;

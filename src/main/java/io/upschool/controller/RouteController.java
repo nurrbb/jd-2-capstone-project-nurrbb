@@ -1,6 +1,8 @@
 package io.upschool.controller;
 
 
+import io.upschool.dto.RouteSaveRequest;
+import io.upschool.dto.RouteSaveResponse;
 import io.upschool.entity.Route;
 import io.upschool.service.RouteService;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +19,13 @@ public class RouteController {
 
     @GetMapping
     public ResponseEntity<List<Route>> getRoute(){
-
         var route = routeService.getAllRoute();
         return ResponseEntity.ok(route);
     }
 
     @PostMapping
-    public ResponseEntity<Route> createRoute(@RequestBody Route route){
-        Route savedRoute = routeService.Save(route);
+    public ResponseEntity<RouteSaveResponse> createRoute(@RequestBody RouteSaveRequest request){
+        RouteSaveResponse savedRoute = routeService.save(request);
         return ResponseEntity.ok(savedRoute);
     }
 }

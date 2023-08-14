@@ -15,6 +15,11 @@ public class AirportService {
     public List<Airport> findAirportByName(String name){
         return airportRepository.findAllByNameIs(name);
     }
+    public Airport getByAirportId(Long id) {
+
+        return airportRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Airport with ID " + id + " not found!"));
+    }
 
     public Airport save(Airport airport){
         return  airportRepository.save(airport);

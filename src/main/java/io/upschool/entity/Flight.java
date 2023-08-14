@@ -20,10 +20,10 @@ public class Flight {
     private String number;
 
     @ManyToOne
-    @JoinColumn(name = "airline_id")
+    @JoinColumn(name = "airline_id",nullable = false)
     private Airline airline;
 
     @ManyToOne
-    @JoinColumn(name = "route_id")
+    @JoinColumn(name = "route_id",nullable = false)
     private Route route;
 }

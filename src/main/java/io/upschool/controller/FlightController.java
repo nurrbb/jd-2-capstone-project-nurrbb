@@ -1,5 +1,7 @@
 package io.upschool.controller;
 
+import io.upschool.dto.FlightSaveRequest;
+import io.upschool.dto.FlightSaveResponse;
 import io.upschool.entity.Flight;
 import io.upschool.service.FlightService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +24,8 @@ public class FlightController {
     }
 
     @PostMapping
-    public ResponseEntity<Flight> createFlight(@RequestBody Flight flight){
-        Flight savedFlight = flightService.Save(flight);
+    public ResponseEntity<FlightSaveResponse> createFlight(@RequestBody FlightSaveRequest request){
+        FlightSaveResponse savedFlight = flightService.save(request);
         return ResponseEntity.ok(savedFlight);
     }
 

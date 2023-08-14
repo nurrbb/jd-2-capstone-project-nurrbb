@@ -1,6 +1,7 @@
 package io.upschool.controller;
 
-
+import io.upschool.dto.TicketSaveRequest;
+import io.upschool.dto.TicketSaveResponse;
 import io.upschool.entity.Ticket;
 import io.upschool.service.TicketService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,8 @@ public class TicketController {
     }
 
     @PostMapping
-    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket){
-        Ticket savedTicket = ticketService.Save(ticket);
+    public ResponseEntity<TicketSaveResponse> createTicket(@RequestBody TicketSaveRequest request){
+        TicketSaveResponse savedTicket = ticketService.save(request, request.getCreditCardNumber());
         return ResponseEntity.ok(savedTicket);
     }
 
@@ -32,4 +33,5 @@ public class TicketController {
     public  void deleteTicket(@PathVariable("id") long id){
         ticketService.delete(id);
     }
+
 }

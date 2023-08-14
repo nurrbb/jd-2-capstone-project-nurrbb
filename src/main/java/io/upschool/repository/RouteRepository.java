@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 
 public interface RouteRepository extends JpaRepository<Route,Long> {
-    List<Route> findByOriginAirport_NameAndDestinationAirport_Name(String originAirportName, String destinationAirportName);
+    List<Route> findByOriginAirportIdAndDestinationAirportId(Long originAirportId, Long destinationAirportId);
 
 
 
