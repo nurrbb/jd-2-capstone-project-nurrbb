@@ -57,6 +57,7 @@ public class TicketService {
                 .ticketNumber(ticket.getTicketNumber())
                 .passengerName(ticket.getPassengerName())
                 .passengerSurname(ticket.getPassengerSurname())
+                .maskedCreditCardNumber(maskedCreditCardNumber)
                 .flight(flight)
                 .build();
     }
@@ -64,8 +65,8 @@ public class TicketService {
     private String maskCreditCardNumber(String creditCardNumber) {
         String cleanedNumber = creditCardNumber.replaceAll("[\\s- ,]", "");
 
-        int visibleDigits = 3;
-        int maskedDigits = cleanedNumber.length() - visibleDigits - 4;
+        int visibleDigits = 4;
+        int maskedDigits = cleanedNumber.length() - visibleDigits - 2;
         String maskedPart = "*".repeat(maskedDigits);
         int lastDigits = 2;
         return cleanedNumber.substring(0, visibleDigits) + maskedPart + cleanedNumber.substring(cleanedNumber.length() - lastDigits);

@@ -17,4 +17,5 @@ public class TicketSaveResponse {
     private String passengerName;
     private String passengerSurname;
     private Flight flight;
+    private String maskedCreditCardNumber;
 }
