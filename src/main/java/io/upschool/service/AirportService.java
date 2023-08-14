@@ -1,7 +1,10 @@
 package io.upschool.service;
 
+import io.upschool.dto.AirportSaveRequest;
+import io.upschool.dto.AirportSaveResponse;
 import io.upschool.entity.Airport;
 import io.upschool.repository.AirportRepository;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +18,28 @@ public class AirportService {
     public List<Airport> findAirportByName(String name){
         return airportRepository.findAllByNameIs(name);
     }
+
+    @Transactional(readOnly = true)
     public Airport getByAirportId(Long id) {
 
         return airportRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Airport with ID " + id + " not found!"));
+                .orElseThrow(() -> new RuntimeException( id + " not found!"));
+    }
+
+    @Transactional //save delete
+    public AirportSaveResponse save(AirportSaveRequest request){
+        var newAirport = Airport
+                .builder()
+                .name(request.getName())
+                .location(request.getLocation())
+                .build();
+        Airport savedAirport = airportRepository.save(newAirport);
+        return AirportSaveResponse
+                .builder()
+                .location(savedAirport.getLocation())
+                .name(savedAirport.getName())
+                .id(savedAirport.getId()).build();
+
     }
 
     public Airport save(Airport airport){

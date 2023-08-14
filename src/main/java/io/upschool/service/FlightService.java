@@ -6,7 +6,7 @@ import io.upschool.entity.Airline;
 import io.upschool.entity.Flight;
 import io.upschool.entity.Route;
 import io.upschool.repository.FlightRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -24,10 +24,11 @@ public class FlightService {
        return flightRepository.findAllByNumberIs(number);
     }
 
+    @Transactional(readOnly = true)
     public Flight getByFlightId(Long id) {
 
         return flightRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Flight with ID " + id + " not found!"));
+                .orElseThrow(() -> new RuntimeException(id + " not found!"));
     }
 
 @Transactional

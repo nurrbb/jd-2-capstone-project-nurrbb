@@ -2,6 +2,7 @@ package io.upschool.controller;
 
 import io.upschool.dto.FlightSaveRequest;
 import io.upschool.dto.FlightSaveResponse;
+import io.upschool.entity.Airline;
 import io.upschool.entity.Flight;
 import io.upschool.service.FlightService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,11 @@ public class FlightController {
 
         var Flight = flightService.getAllFlight();
         return ResponseEntity.ok(Flight);
+    }
+    @GetMapping(path="/{id}")
+    public ResponseEntity<Flight> search(@PathVariable Long id){
+        var flight = flightService.getByFlightId(id);
+        return ResponseEntity.ok(flight);
     }
 
     @PostMapping

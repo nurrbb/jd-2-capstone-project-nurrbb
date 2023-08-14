@@ -20,6 +20,13 @@ public class AirportController {
         var airport = airportService.getAllAirports();
         return ResponseEntity.ok(airport);
     }
+
+    // airline için
+    @GetMapping(path="/{id}")
+    public ResponseEntity<Airport> search(@PathVariable Long id){
+        var airport = airportService.getByAirportId(id);
+        return ResponseEntity.ok(airport);
+    }
     @PostMapping
     public ResponseEntity<Airport> createAirport(@RequestBody Airport airport){
         Airport savedAirport = airportService.save(airport);

@@ -5,7 +5,7 @@ import io.upschool.dto.RouteSaveResponse;
 import io.upschool.entity.Airport;
 import io.upschool.entity.Route;
 import io.upschool.repository.RouteRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +21,11 @@ public class RouteService {
         return routeRepository.save(route);
     }
 
+    @Transactional(readOnly = true)
     public Route getRouteById(Long id){
 
         return routeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Route with ID " + id + " not found!"));
+                .orElseThrow(() -> new RuntimeException(id + " not found!"));
     }
     @Transactional
     public RouteSaveResponse save(RouteSaveRequest request) {

@@ -33,6 +33,10 @@ public class Ticket {
     @JoinColumn(name = "flight_id",nullable = false)
     private Flight flight;
 
-    @Column(name ="is active")
-    private Boolean active;
+    @Column(name = "maskedCreditCardNumber")
+    private String maskedCreditCardNumber;
+
+    @Column(name ="is_active")
+    @Builder.Default()
+    private boolean active = Boolean.TRUE;
 }

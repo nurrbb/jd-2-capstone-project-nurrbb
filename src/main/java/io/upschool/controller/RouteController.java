@@ -1,6 +1,5 @@
 package io.upschool.controller;
 
-
 import io.upschool.dto.RouteSaveRequest;
 import io.upschool.dto.RouteSaveResponse;
 import io.upschool.entity.Route;
@@ -20,6 +19,11 @@ public class RouteController {
     @GetMapping
     public ResponseEntity<List<Route>> getRoute(){
         var route = routeService.getAllRoute();
+        return ResponseEntity.ok(route);
+    }
+    @GetMapping(path="/{id}")
+    public ResponseEntity<Route> search(@PathVariable Long id){
+        var route = routeService.getRouteById(id);
         return ResponseEntity.ok(route);
     }
 
