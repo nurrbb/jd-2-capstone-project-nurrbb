@@ -2,6 +2,7 @@ package io.upschool.controller;
 
 import io.upschool.dto.AirlineSaveRequest;
 import io.upschool.dto.AirlineSaveResponse;
+import io.upschool.dto.Airlinedto;
 import io.upschool.dto.BaseResponse;
 import io.upschool.entity.Airline;
 import io.upschool.service.AirlineService;
@@ -41,9 +42,9 @@ public class AirlineController {
         return ResponseEntity.ok(response);
     }
     @GetMapping(path="/{id}")
-    public ResponseEntity<BaseResponse<Airline>> search(@PathVariable Long id) {
+    public ResponseEntity<BaseResponse<Airlinedto>> search(@PathVariable Long id) {
         var airline = airlineService.getByAirlineId(id);
-        var response = BaseResponse.<Airline>builder()
+        var response = BaseResponse.<Airlinedto>builder()
                 .status(HttpStatus.OK.value())
                 .isSuccess(true)
                 .data(airline)

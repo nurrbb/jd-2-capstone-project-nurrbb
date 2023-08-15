@@ -31,10 +31,12 @@ public class FlightService {
                 .orElseThrow(() -> new RuntimeException(id + " not found!"));
     }
 
+
+
 @Transactional
     public FlightSaveResponse save(FlightSaveRequest request) {
 
-        Airline airline = airlineService.getByAirlineId(request.getAirlineId());
+        Airline airline = airlineService.getAirlineById(request.getAirlineId());
         Route route = routeService.getRouteById(request.getRouteId());
         Flight flight = Flight.builder()
                 .airline(airline)

@@ -2,6 +2,7 @@ package io.upschool.service;
 
 import io.upschool.dto.AirlineSaveRequest;
 import io.upschool.dto.AirlineSaveResponse;
+import io.upschool.dto.Airlinedto;
 import io.upschool.entity.Airline;
 import io.upschool.exception.AirlineAlreadySavedException;
 import io.upschool.exception.AirlineNotFoundException;
@@ -19,10 +20,23 @@ public class AirlineService {
     private final AirlineRepository airlineRepository;
 
     @Transactional(readOnly = true)
-    public Airline getByAirlineId(Long id) {
+    public Airlinedto getByAirlineId(Long id) {
 
-        return airlineRepository.findById(id)
+        Airline airline =  airlineRepository.findById(id)
                 .orElseThrow(() -> new AirlineNotFoundException(id));
+        return Airlinedto.builder()
+                .id(airline.getAirlineID())
+                .name(airline.getName())
+                .build();
+
+    }
+
+    @Transactional(readOnly = true)
+    public Airline getAirlineById(Long id) {
+
+        return   airlineRepository.findById(id)
+                .orElseThrow(() -> new AirlineNotFoundException(id));
+
     }
 
     @Transactional

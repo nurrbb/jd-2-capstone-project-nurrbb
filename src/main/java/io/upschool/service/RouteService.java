@@ -39,6 +39,7 @@ public class RouteService {
         if (routeRepository.existsByOriginAirportAndDestinationAirport(originAirport, destinationAirport)) {
             throw new RouteAlreadySavedException();
         }
+
         Airport origin = airportService.getByAirportId(request.getOriginAirportId());
         Airport destination = airportService.getByAirportId(request.getDestinationAirportId());
 
