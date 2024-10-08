@@ -1,32 +1,52 @@
-Airline Ticketing System Backend Service Application
+# Airline Ticketing System Backend Service Application
 
-Technologies Used:
+## Technologies Used
+- **Java 17**
+- **Maven**
+- **Spring Boot 3**
+- **MySQL Database**
+- **Restful Web Service (JSON)**
 
-Java 17
-Maven
-Spring Boot 3
-MySQL Database
-Restful Web Service (JSON)
-Project Overview: The Airline Ticketing System is a backend service application developed to manage essential functions for airline companies, airports, routes, and flight ticketing. It is designed using Spring Boot for rapid development, with a focus on scalability and ease of use. The application enables users to efficiently manage and search through airline companies, airports, routes, and flight details.
+## Project Overview
+The Airline Ticketing System is a backend service application developed to manage essential functions for airline companies, airports, routes, and flight ticketing. It is designed using Spring Boot and MySQL for robust data management and RESTful APIs for efficient communication.
 
-Key Features:
+## Features
+- **Airline Management:**  
+  - Add new airline companies.
+  - Search for existing airline companies.
 
-Airline Company Management: Allows adding new airline companies and searching for existing ones.
+- **Airport Management:**  
+  - Add new airports.
+  - Search for existing airports.
 
-Airport Management: Users can add new airports and search through the list of airports.
+- **Route Management:**  
+  - Add new routes.
+  - Search for existing routes.
 
-Route Management: Enables users to create and search for routes between different airports.
+- **Flight Management:**  
+  - Define new flights for airline companies.
+  - Search for existing flights.
 
-Flight Definition for Airlines: Users can define flights for specific airlines and search through flight details.
+- **Ticket Purchasing:**  
+  - Purchase tickets with credit card information masking (e.g., "4221161122330005" -> "422116******0005").
+  - Accepts credit card numbers with various delimiters (e.g., "4221-1611-2233-0005", "4221,1611,2233,0005") and masks them in the expected format.
+  - Search for tickets using the ticket number.
+  - Cancel tickets using the ticket number.
 
-Ticket Purchase and Management:
+- **Soft Delete:**  
+  Soft delete is implemented for operations that require deletion, ensuring data integrity.
 
-Users can purchase tickets while ensuring the security of sensitive information.
-During the purchase process, credit card details are masked  to protect customer data.
-The application supports various formats of credit card inputs  and ensures they are masked uniformly.
-Users can search for tickets using ticket numbers and cancel tickets if needed.
-Soft Deletion for Deletion Processes: For all delete operations, a soft delete approach is applied to maintain data integrity and allow for recovery if necessary.
+- **Global Exception Handling:**  
+  Centralized handling of exceptions to maintain consistency in error responses.
 
-Global Exception Handling: A comprehensive global exception handling mechanism is implemented to provide consistent error management throughout the application.
+- **API Responses:**  
+  Standardized response structure for all API endpoints.
 
-Consistent API Responses: API responses follow a standardized format, ensuring a uniform experience across all endpoints.
+## Testing
+- Unit tests are written for all public methods, ensuring reliability and correctness of the application's logic.
+- Test coverage is maintained at a minimum of 60%.
+
+## Project Structure
+The project is hosted on GitHub and developed as a backend-only service, focusing on API functionalities. It can be tested using tools like Postman.
+
+Feel free to clone the repository and explore the codebase!
