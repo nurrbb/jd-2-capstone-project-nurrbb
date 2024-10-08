@@ -1,32 +1,32 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/zmClullX)
-## Havayolları Biletleme Sistemi Backend Servis Uygulaması
+Airline Ticketing System Backend Service Application
 
-**Teknolojiler:**
-- JAVA 17
-- Maven
-- Spring Boot 3
-- MySQL Database
-- Restful Web Service (JSON)
+Technologies Used:
 
-**Gereksinimler:**
-- Havayolu şirketi eklenebilmeli ve aranabilmeli.
-- Havaalanı eklenebilmeli ve aranabilmeli.
-- Rota eklenebilmeli ve aranabilmeli.
-- Havayolu şirketine uçuş tanımlanabilmeli ve aranabilmeli.
-- Bilet satın alınabilmeli:
-    - Satın alma işlemi sırasında kredi kartı bilgileri maskelenmeli. (Örneğin "4221161122330005" -> "422116******0005").
-    - Kredi kartı numarasının aralarında boşluklar ya da ayraçlar olması gibi durumları da kapsayacak şekilde geliştirme yapılmalı. Örneğin; Request’te kart numarası farklı formatlarda da gelse (Örnek: "4221-1611-2233-0005", "4221,1611,2233,0005"), kart bilgisi beklenen şekilde ("422116******0005") maskelenerek satın alma işlemine alınmalı.
-    - Bilet numarası ile arama yapılabilmeli ve bilet iptali yapılabilmeli.
-- Silme gerektiren işlemlerde soft delete yapılması gereklidir.
-- Global Exception Handling yapısının kurulması.
-- API response’larının ortak bir yapı üzerinden dönülmesi.
-- Private metodlar harici her yerin testleri yazılmalıdır (coverage minimum %60 olmalıdır).
+Java 17
+Maven
+Spring Boot 3
+MySQL Database
+Restful Web Service (JSON)
+Project Overview: The Airline Ticketing System is a backend service application developed to manage essential functions for airline companies, airports, routes, and flight ticketing. It is designed using Spring Boot for rapid development, with a focus on scalability and ease of use. The application enables users to efficiently manage and search through airline companies, airports, routes, and flight details.
 
-**Proje Formatı:**
-- Proje GitHub üzerinden paylaşılmalı.
-- Proje sadece backend servisler olarak gerçekleştirilmeli.
-- Servislere ait dökümantasyon oluşturulmalı ve servislere ait JSON örnekleri paylaşılmalı.
-- Örneğin; "Postman" request'leri olarak iletilebilir.
+Key Features:
 
-**Not:**
-Proje isteklerinin karşılanması durumunda ekstra yapılan geliştirmeler artı puan sayılabilir, ancak proje isteklerinin önceliği vardır.
+Airline Company Management: Allows adding new airline companies and searching for existing ones.
+
+Airport Management: Users can add new airports and search through the list of airports.
+
+Route Management: Enables users to create and search for routes between different airports.
+
+Flight Definition for Airlines: Users can define flights for specific airlines and search through flight details.
+
+Ticket Purchase and Management:
+
+Users can purchase tickets while ensuring the security of sensitive information.
+During the purchase process, credit card details are masked  to protect customer data.
+The application supports various formats of credit card inputs  and ensures they are masked uniformly.
+Users can search for tickets using ticket numbers and cancel tickets if needed.
+Soft Deletion for Deletion Processes: For all delete operations, a soft delete approach is applied to maintain data integrity and allow for recovery if necessary.
+
+Global Exception Handling: A comprehensive global exception handling mechanism is implemented to provide consistent error management throughout the application.
+
+Consistent API Responses: API responses follow a standardized format, ensuring a uniform experience across all endpoints.
