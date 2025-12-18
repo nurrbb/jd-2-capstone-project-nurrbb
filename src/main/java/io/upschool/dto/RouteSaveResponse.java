@@ -15,5 +15,6 @@ public class RouteSaveResponse {
     private Long routeID;
     private Airport originAirport;
     private Airport destinationAirport;
+    private Integer averageDurationMinutes;
 
 }

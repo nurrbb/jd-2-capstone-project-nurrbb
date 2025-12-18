@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +20,6 @@ public class TicketSaveResponse {
     private String passengerSurname;
     private Flight flight;
     private String maskedCreditCardNumber;
+    private String seatNumber;
+    private BigDecimal price;
 }

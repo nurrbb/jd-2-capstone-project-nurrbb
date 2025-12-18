@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +21,10 @@ public class FlightSaveResponse {
     private String number;
     private Airline airline;
     private Route route;
+    private Integer totalSeats;
+    private Integer availableSeats;
+    private LocalDateTime departureTime;
+    private LocalDateTime arrivalTime;
+    private Integer durationMinutes;
+    private BigDecimal basePrice;
 }
