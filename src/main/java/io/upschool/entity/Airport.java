@@ -7,7 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "airport")
+@Table(name = "airport", indexes = {
+    @Index(name = "idx_airport_name", columnList = "name"),
+    @Index(name = "idx_airport_location", columnList = "location")
+})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
