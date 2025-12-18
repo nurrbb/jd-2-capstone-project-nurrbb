@@ -3,6 +3,7 @@ package io.upschool.controller;
 import io.upschool.dto.*;
 import io.upschool.entity.Ticket;
 import io.upschool.service.TicketService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class TicketController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createTicket(@RequestBody TicketSaveRequest request) {
+    public ResponseEntity<Object> createTicket(@Valid @RequestBody TicketSaveRequest request) {
         var ticketSaveResponse = ticketService.save(request);
         var response =  BaseResponse.<TicketSaveResponse>builder()
                 .status(HttpStatus.CREATED.value())
