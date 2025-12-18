@@ -3,6 +3,7 @@ package io.upschool.controller;
 import io.upschool.dto.*;
 import io.upschool.entity.Airport;
 import io.upschool.service.AirportService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class AirportController {
         return ResponseEntity.ok(response);
     }
     @PostMapping
-    public ResponseEntity<Object> createAirport(@RequestBody AirportSaveRequest request) {
+    public ResponseEntity<Object> createAirport(@Valid @RequestBody AirportSaveRequest request) {
         var airportSaveResponse = airportService.save(request);
         var response =  BaseResponse.<AirportSaveResponse>builder()
                 .status(HttpStatus.CREATED.value())
