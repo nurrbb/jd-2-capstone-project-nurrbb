@@ -4,6 +4,7 @@ import io.upschool.dto.AirportSaveRequest;
 import io.upschool.dto.AirportSaveResponse;
 import io.upschool.entity.Airport;
 import io.upschool.exception.AirportAlreadySavedException;
+import io.upschool.exception.AirportNotFoundException;
 import io.upschool.repository.AirportRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,12 @@ public class AirportService {
     public Airport getByAirportId(Long id) {
 
         return airportRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException( id + " not found!"));
+                .orElseThrow(() -> new AirportNotFoundException(id));
     }
 
     @Transactional //save delete
     public AirportSaveResponse save(AirportSaveRequest request){
-        String lowercaseName = request.getName().toLowerCase();
-        if (airportRepository.existsByName(request.getName())) {
+        if (airportRepository.existsByNameIgnoreCase(request.getName())) {
             throw new AirportAlreadySavedException();
         }
         var newAirport = Airport

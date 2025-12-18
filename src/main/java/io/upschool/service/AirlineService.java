@@ -41,8 +41,7 @@ public class AirlineService {
 
     @Transactional
     public AirlineSaveResponse save(AirlineSaveRequest airlineSaveRequest){
-        String lowercaseName = airlineSaveRequest.getName().toLowerCase();
-        if (airlineRepository.existsByName(airlineSaveRequest.getName())) {
+        if (airlineRepository.existsByNameIgnoreCase(airlineSaveRequest.getName())) {
             throw new AirlineAlreadySavedException();
         }
         var newAirline = Airline.builder()

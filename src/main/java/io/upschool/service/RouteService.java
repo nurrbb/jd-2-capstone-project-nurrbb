@@ -1,11 +1,16 @@
 package io.upschool.service;
 
+import io.upschool.dto.RouteProjection;
 import io.upschool.dto.RouteSaveRequest;
 import io.upschool.dto.RouteSaveResponse;
 import io.upschool.entity.Airport;
 import io.upschool.entity.Route;
+import io.upschool.exception.InvalidRouteException;
 import io.upschool.exception.RouteAlreadySavedException;
+import io.upschool.exception.RouteNotFoundException;
 import io.upschool.repository.RouteRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +30,7 @@ public class RouteService {
     @Transactional(readOnly = true)
     public Route getRouteById(Long id){
         return routeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(id + " not found!"));
+                .orElseThrow(() -> new RouteNotFoundException(id));
     }
     @Transactional
     public RouteSaveResponse save(RouteSaveRequest request) {
@@ -33,19 +38,17 @@ public class RouteService {
         Airport destinationAirport = airportService.getByAirportId(request.getDestinationAirportId());
 
         if (originAirport.getId() == destinationAirport.getId()) {
-            throw new RuntimeException("Origin and destination airports cannot be the same.");
+            throw new InvalidRouteException("Origin and destination airports cannot be the same.");
         }
 
         if (routeRepository.existsByOriginAirportAndDestinationAirport(originAirport, destinationAirport)) {
             throw new RouteAlreadySavedException();
         }
 
-        Airport origin = airportService.getByAirportId(request.getOriginAirportId());
-        Airport destination = airportService.getByAirportId(request.getDestinationAirportId());
-
         Route route = Route.builder()
-                .originAirport(origin)
-                .destinationAirport(destination)
+                .originAirport(originAirport)
+                .destinationAirport(destinationAirport)
+                .averageDurationMinutes(request.getAverageDurationMinutes())
                 .build();
 
         routeRepository.save(route);
@@ -53,15 +56,50 @@ public class RouteService {
                 .routeID(route.getRouteID())
                 .originAirport(route.getOriginAirport())
                 .destinationAirport(route.getDestinationAirport())
+                .averageDurationMinutes(route.getAverageDurationMinutes())
                 .build();
     }
 
+    /**
+     * Search routes by airports without pagination (legacy method)
+     */
     public List<Route> searchRoutesByAirports(Long originAirportId, Long destinationAirportId) {
         return routeRepository.findByOriginAirportIdAndDestinationAirportId(originAirportId, destinationAirportId);
     }
 
+    /**
+     * Optimized method using projection for better performance
+     */
+    @Transactional(readOnly = true)
+    public List<RouteProjection> searchRoutesByAirportsOptimized(Long originAirportId, Long destinationAirportId) {
+        return routeRepository.findRoutesByAirportsOptimized(originAirportId, destinationAirportId);
+    }
+
+    /**
+     * Get all routes without pagination (legacy method)
+     */
     public List<Route> getAllRoute(){
         return  routeRepository.findAll();
+    }
+
+    /**
+     * Paginated search for routes with optimized projection
+     * Supports filtering by origin/destination airport IDs and names
+     */
+    @Transactional(readOnly = true)
+    public Page<RouteProjection> searchRoutes(Long originAirportId, Long destinationAirportId,
+                                               String originAirportName, String destinationAirportName,
+                                               Pageable pageable) {
+        return routeRepository.searchRoutesOptimized(
+                originAirportId, destinationAirportId, originAirportName, destinationAirportName, pageable);
+    }
+
+    /**
+     * Get all routes with pagination and optimized projection
+     */
+    @Transactional(readOnly = true)
+    public Page<RouteProjection> getAllRoutes(Pageable pageable) {
+        return routeRepository.findAllRoutesOptimized(pageable);
     }
 
 
