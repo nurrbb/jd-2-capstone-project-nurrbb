@@ -4,13 +4,17 @@ import io.upschool.dto.TicketSaveRequest;
 import io.upschool.dto.TicketSaveResponse;
 import io.upschool.entity.Flight;
 import io.upschool.entity.Ticket;
+import io.upschool.exception.InsufficientSeatsException;
 import io.upschool.exception.InvalidCreditCardNumberException;
 import io.upschool.exception.TicketAlreadySavedException;
+import io.upschool.exception.TicketNotFoundException;
 import io.upschool.repository.TicketRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 import java.util.List;
 
@@ -24,7 +28,7 @@ public class TicketService {
     @Transactional(readOnly = true)
     public Ticket getByTicketId(Long id) {
         return ticketRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(id + " not found!"));
+                .orElseThrow(() -> new TicketNotFoundException(id));
     }
 
     public List<Ticket> findTicketBySurname(String surname){
@@ -48,7 +52,20 @@ public class TicketService {
             throw new InvalidCreditCardNumberException("Invalid credit card number format.Your credit card number must be 16 digits long and consist of only numbers.");
         }
 
+        // Check seat availability
+        if (flight.getAvailableSeats() <= 0) {
+            throw new InsufficientSeatsException("No seats available for this flight.");
+        }
+
+        // Check if seat is already taken (simple check, in real app use a set or DB constraint)
+        if (ticketRepository.existsByFlightAndSeatNumber(flight, request.getSeatNumber())) {
+            throw new TicketAlreadySavedException("Seat " + request.getSeatNumber() + " is already taken.");
+        }
+
         String maskedCreditCardNumber = maskCreditCardNumber(request.getCreditCardNumber());
+
+        // Calculate price (for now, use base price; can add dynamic pricing later)
+        BigDecimal price = flight.getBasePrice();
 
         Ticket ticket = Ticket.builder()
                 .ticketNumber(RandomStringUtils.randomAlphanumeric(4))
@@ -56,9 +73,15 @@ public class TicketService {
                 .passengerSurname(request.getPassengerSurname())
                 .flight(flight)
                 .maskedCreditCardNumber(maskedCreditCardNumber)
+                .seatNumber(request.getSeatNumber())
+                .price(price)
                 .build();
 
         ticketRepository.save(ticket);
+
+        // Update available seats
+        flight.setAvailableSeats(flight.getAvailableSeats() - 1);
+        flightService.Save(flight);
 
         return TicketSaveResponse.builder()
                 .ticketId(ticket.getTicketID())
@@ -66,6 +89,8 @@ public class TicketService {
                 .passengerName(ticket.getPassengerName())
                 .passengerSurname(ticket.getPassengerSurname())
                 .maskedCreditCardNumber(maskedCreditCardNumber)
+                .seatNumber(ticket.getSeatNumber())
+                .price(price)
                 .flight(flight)
                 .build();
     }
