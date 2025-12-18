@@ -4,7 +4,9 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name ="Airline")
+@Table(name ="Airline", indexes = {
+    @Index(name = "idx_airline_name", columnList = "name")
+})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
