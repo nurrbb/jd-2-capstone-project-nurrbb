@@ -6,6 +6,7 @@ import io.upschool.dto.Airlinedto;
 import io.upschool.dto.BaseResponse;
 import io.upschool.entity.Airline;
 import io.upschool.service.AirlineService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class AirlineController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createAirline(@RequestBody AirlineSaveRequest request) {
+    public ResponseEntity<Object> createAirline(@Valid @RequestBody AirlineSaveRequest request) {
         var airlineSaveResponse = airlineService.save(request);
         var response =  BaseResponse.<AirlineSaveResponse>builder()
                 .status(HttpStatus.CREATED.value())
