@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "ticket")
 @Data
@@ -35,6 +37,12 @@ public class Ticket {
 
     @Column(name = "maskedCreditCardNumber")
     private String maskedCreditCardNumber;
+
+    @Column(name = "seat_number")
+    private String seatNumber;
+
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
 
     @Column(name ="is_active")
     @Builder.Default()
