@@ -4,4 +4,8 @@ public class TicketAlreadySavedException extends RuntimeException{
     public TicketAlreadySavedException() {
         super("A ticket has already been purchased by this passenger.");
     }
+
+    public TicketAlreadySavedException(String message) {
+        super(message);
+    }
 }
