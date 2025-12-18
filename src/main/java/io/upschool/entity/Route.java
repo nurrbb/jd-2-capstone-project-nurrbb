@@ -7,7 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "route")
+@Table(name = "route", indexes = {
+    @Index(name = "idx_route_origin_airport_id", columnList = "origin_airport_id"),
+    @Index(name = "idx_route_destination_airport_id", columnList = "destination_airport_id"),
+    @Index(name = "idx_route_origin_destination", columnList = "origin_airport_id,destination_airport_id")
+})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,5 +29,8 @@ public class Route {
     @ManyToOne
     @JoinColumn(name = "destination_airport_id",nullable = false)
     private Airport destinationAirport;
+
+    @Column(name = "average_duration_minutes")
+    private Integer averageDurationMinutes;
 
 }
